@@ -1,7 +1,55 @@
 #!/usr/bin/python  
 # -*-coding:utf-8 -*-  
 
-#http://blog.csdn.net/lianxiang_biancheng/article/details/7772487
+#http://blog.csdn.net/lianxiang_biancheng/article/details/7772487\
+#http://stackoverflow.com/questions/3334809/python-urllib2-how-to-send-cookie-with-urlopen-request
+
+
+"""
+http://stackoverflow.com/questions/3334809/python-urllib2-how-to-send-cookie-with-urlopen-request
+
+import urllib2
+opener = urllib2.build_opener()
+opener.addheaders.append(('Cookie', 'cookiename=cookievalue'))
+f = opener.open("http://example.com/")
+
+"""
+"""
+import urllib2
+import urllib
+from cookielib import CookieJar
+cj = CookieJar()
+opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+# input-type values from the html form
+formdata = { "username" : username, "password": password, "form-id" : "1234" }
+data_encoded = urllib.urlencode(formdata)
+response = opener.open("https://page.com/login.php", data_encoded)
+content = response.read()
+"""
+
+"""
+>>> cookies = dict(cookies_are='working')
+
+>>> r = requests.get('http://httpbin.org/cookies', cookies=cookies)
+>>> r.text
+'{"cookies": {"cookies_are": "working"}}'
+"""
+
+"""
+    def loginByCookie(self, cookie_path):
+        with open(cookie_path) as fp:
+            cookie_str = fp.read()
+            cookie_dict = dict([v.split('=', 1) for v in cookie_str.strip().split(';')])
+            self.session.cookies = requests.utils.cookiejar_from_dict(cookie_dict)
+
+        self.getToken()
+
+    def saveCookie(self, cookie_path):
+        with open(cookie_path, 'w') as fp:
+            cookie_dict = requests.utils.dict_from_cookiejar(self.session.cookies)
+            cookie_str = '; '.join([k + '=' + v for k, v in cookie_dict.iteritems()])
+            fp.write(cookie_str)
+"""
 
 
 import httplib2  
